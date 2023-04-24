@@ -4,6 +4,7 @@
 #include<vector>
 #include <cmath>
 #include <iostream>
+#include "PackedMatrix.h"
 
 class Vector {
 public:
@@ -52,6 +53,22 @@ public:
 			result[i] = values_[i] * value;
 		}
 		
+		return Vector(result);
+	}
+
+	Vector operator *(PackedMatrix& matrix) {
+		int N = matrix.getIR().size()-1;
+		std::vector<double> result(N);
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				double other = 0;
+				if (j != i) {
+					other = matrix.getElement(j, i) * values_[j];
+				}
+				result[i] += matrix.getElement(i, j) * values_[j] + other;
+			}
+		}
+
 		return Vector(result);
 	}
 
