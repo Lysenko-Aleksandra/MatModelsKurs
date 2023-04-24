@@ -44,7 +44,17 @@ void test_matrix_unpacked() {
 	std::cout<<m;
 }
 
-//void test_vector_manipulations() {
-//	Vector 
-//}
+void test_vector_manipulations() {
+	Vector first_vector(std::vector < double>{2.0, 2.0, 2.0});
+	Vector second_vector(std::vector < double>{2.0, 2.0, 2.0});
+
+	Vector summ = first_vector + second_vector;
+	std::cout << summ;
+	Vector mult_2 = first_vector * 2;
+	std::cout << mult_2;
+	Vector subs = first_vector - second_vector;
+	std::cout << subs;
+	double abs = first_vector.abs();
+	std::cout << abs;
+}
 #endif
