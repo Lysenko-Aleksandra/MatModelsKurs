@@ -77,6 +77,7 @@ public:
 
 		return std::sqrt(it * it);
 	}
+
 private:
 	std::vector<double> values_;
 
