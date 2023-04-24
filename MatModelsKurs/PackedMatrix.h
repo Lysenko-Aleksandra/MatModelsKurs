@@ -45,23 +45,16 @@ public:
 		return value;
 	}
 
-	void printUnpackedMatrix(std::ostream& out) {
-		for (int rowFirstIndex = 0; rowFirstIndex < IR_.size() - 1; rowFirstIndex++) {
-			int start = IR_[rowFirstIndex];
-			int end = IR_[rowFirstIndex + 1];
-			std::vector<double> row(IR_.size()-1);
-			for (int j = 0; j < IR_.size()-1; j++) {
-				for (int k = start; k < end; k++) {
-					if (IC_[k] == j) {
-						row[j] = A_[k];
-					}
-				}
-			}
-			for (int i = 0; i < row.size(); i++) {
-				out << row[i] << '\t';
-			}
-			out << '\n';
-		}
+	std::vector<double> getA() {
+		return A_;
+	}
+
+	std::vector<int> getIR() {
+		return IR_;
+	}
+
+	std::vector<int> getIC() {
+		return IC_;
 	}
 
 private:
@@ -69,5 +62,29 @@ private:
 	std::vector<int>IC_;
 	std::vector<int>IR_;
 };
+
+std::ostream& operator <<(std::ostream& out, PackedMatrix &m) {
+	std::vector<int> IC_ = m.getIC();
+	std::vector<int> IR_ = m.getIR();
+	std::vector<double> A_ = m.getA();
+	for (int rowFirstIndex = 0; rowFirstIndex < IR_.size() - 1; rowFirstIndex++) {
+		std::vector<int> IC_ = m.getIC();
+		int start = m.getIR()[rowFirstIndex];
+		int end = IR_[rowFirstIndex + 1];
+		std::vector<double> row(IR_.size() - 1);
+		for (int j = 0; j < IR_.size() - 1; j++) {
+			for (int k = start; k < end; k++) {
+				if (IC_[k] == j) {
+					row[j] = A_[k];
+				}
+			}
+		}
+		for (int i = 0; i < row.size(); i++) {
+			out << row[i] << '\t';
+		}
+		out << '\n';
+	}
+	return out;
+}
 
 #endif

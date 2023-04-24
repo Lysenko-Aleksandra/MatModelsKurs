@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "PackedMatrix.h"
+#include "Vector.h"
 
 void test_matrix_unpacked() {
 	PackedMatrix m = PackedMatrix();
@@ -40,7 +41,10 @@ void test_matrix_unpacked() {
 
 
 	m.putLastRowIndex(21);
-	m.printUnpackedMatrix(std::cout);
+	std::cout<<m;
 }
 
+//void test_vector_manipulations() {
+//	Vector 
+//}
 #endif
