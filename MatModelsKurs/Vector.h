@@ -15,6 +15,9 @@ public:
 	Vector(std::vector<double> vals) {
 		values_ = vals;
 	}
+	void setElem(double elem, int position) {
+		values_[position] = elem;
+	}
 
 	std::vector<double> getValues() {
 		return values_;

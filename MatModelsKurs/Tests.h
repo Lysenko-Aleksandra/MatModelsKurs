@@ -109,23 +109,23 @@ double lambda_1() {
 	return 3.0;
 }
 
-double lambda_2() {
+double lambda_3() {
 	return 3.0;
 }
 
-double g_1_first_test(double x, double y) {
+double g_1_first_test(double y) {
 	return 9.0;
 }
 
-double g_2_first_test(double x, double y) {
+double g_2_first_test(double y) {
 	return 3.0;
 }
 
-double g_3_first_test(double x, double y) {
+double g_3_first_test(double x) {
 	return 9.0;
 }
 
-double g_4_first_test(double x, double y) {
+double g_4_first_test(double x) {
 	return 3.0;
 }
 
@@ -180,20 +180,20 @@ double k_2_second_test(double x, double y) {
 }
 
 
-double g_1_second_test(double x, double y) {
-	return -18.0*x-9.0*x*x+9;
+double g_1_second_test(double y) {
+	return 9.0*y+9;
 }
 
-double g_2_second_test(double x, double y) {
-	return 3*x*x+6;
+double g_2_second_test(double y) {
+	return 3*y+6;
 }
 
-double g_3_second_test(double x, double y) {
-	return -27.0*std::pow(y,4)+9* std::pow(y, 3)-27* std::pow(y, 2)+9;
+double g_3_second_test( double x) {
+	return 9*x*x+9;
 }
 
-double g_4_second_test(double x, double y) {
-	return 3.0*y*y+6;
+double g_4_second_test( double x) {
+	return 3.0*x*x+6;
 }
 
 
@@ -211,20 +211,20 @@ double k_2_third_test(double x, double y) {
 }
 
 
-double g_1_third_test(double x, double y) {
-	return -18.0 *std::pow(x,3) + 9.0 * x * x + -18*x + 9;
+double g_1_third_test(double y) {
+	return 9*std::pow(y,3) + 9;
 }
 
-double g_2_third_test(double x, double y) {
-	return 3 * x * x + 6;
+double g_2_third_test(double y) {
+	return 3 * y * y + 6;
 }
 
-double g_3_third_test(double x, double y) {
-	return -27.0 * std::pow(y, 4) + 9 * std::pow(y, 3) - 27 * std::pow(y, 2) + 9;
+double g_3_third_test(double x) {
+	return  9 * std::pow(x, 2)  + 9;
 }
 
-double g_4_third_test(double x, double y) {
-	return 3.0 * y * y + 6;
+double g_4_third_test(double x) {
+	return 3.0 * x * x + 6;
 }
 
 

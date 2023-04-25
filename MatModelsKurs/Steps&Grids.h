@@ -42,22 +42,34 @@ std::vector<double> getAuxiliarySteps(double lowerBound, std::vector<double> mai
 	return auxiliarySteps;
 }
 
-std::vector<double> getAuxiliaryMinusHalfGrid(double lowerBound, std::vector<double> mainGrid) {
-	int partsAmount = mainGrid.size();
-	std::vector<double> auxiliaryMinusHalfGrid(partsAmount);///r -1/2
-	for (int i = 1; i <partsAmount; i++) {
-		auxiliaryMinusHalfGrid[i] = (mainGrid[i] + mainGrid[i - 1]) / 2;
+std::vector<double> getAuxiliaryGrid(double lowerBound,  std::vector<double> mainGrid) {
+	double gridSize = mainGrid.size()+1;
+	std::vector<double>auxGrid(gridSize);
+	auxGrid[0] = lowerBound;
+	auxGrid[1] = auxGrid[0] + (mainGrid[1]-mainGrid[0]) / 2;///
+	for (int i = 2; i < gridSize; i++) {
+		auxGrid[i] = auxGrid[i - 1] + (mainGrid[i] - mainGrid[i - 1]);
 	}
-	return auxiliaryMinusHalfGrid;
+	auxGrid[gridSize]= auxGrid[gridSize - 1]+ (mainGrid[gridSize - 1] - mainGrid[gridSize - 2]) / 2;
+	return auxGrid;
 }
 
-std::vector<double> getAuxiliaryPlusHalfGrid(double lowerBound, std::vector<double> mainGrid) {
-	int partsAmount = mainGrid.size();
-	std::vector<double> auxiliaryPlusHalfGrid(partsAmount);///r +1/2
-	for (int i = 0; i < partsAmount-1; i++) {
-		auxiliaryPlusHalfGrid[i] = (mainGrid[i] + mainGrid[i + 1]) / 2;
-	}
-	return auxiliaryPlusHalfGrid;
-}
+//std::vector<double> getAuxiliaryMinusHalfGrid(double lowerBound, std::vector<double> mainGrid) {
+//	int partsAmount = mainGrid.size();
+//	std::vector<double> auxiliaryMinusHalfGrid(partsAmount);///r -1/2
+//	for (int i = 1; i <partsAmount; i++) {
+//		auxiliaryMinusHalfGrid[i] = (mainGrid[i] + mainGrid[i - 1]) / 2;
+//	}
+//	return auxiliaryMinusHalfGrid;
+//}
+//
+//std::vector<double> getAuxiliaryPlusHalfGrid(double lowerBound, std::vector<double> mainGrid) {
+//	int partsAmount = mainGrid.size();
+//	std::vector<double> auxiliaryPlusHalfGrid(partsAmount);///r +1/2
+//	for (int i = 0; i < partsAmount-1; i++) {
+//		auxiliaryPlusHalfGrid[i] = (mainGrid[i] + mainGrid[i + 1]) / 2;
+//	}
+//	return auxiliaryPlusHalfGrid;
+//}
 
 #endif
