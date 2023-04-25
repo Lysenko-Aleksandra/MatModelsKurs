@@ -7,6 +7,39 @@
 #include "PackedMatrix.h"
 #include "Vector.h"
 
+std::ostream& operator <<(std::ostream& out, Vector& v) {
+	std::vector<double>vals = v.getValues();
+	for (int i = 0; i < vals.size(); i++) {
+		out << vals[i] << ' ';
+	}
+	out << '\n';
+	return out;
+}
+
+std::ostream& operator <<(std::ostream& out, PackedMatrix& m) {
+	std::vector<int> IC_ = m.getIC();
+	std::vector<int> IR_ = m.getIR();
+	std::vector<double> A_ = m.getA();
+	for (int rowFirstIndex = 0; rowFirstIndex < IR_.size() - 1; rowFirstIndex++) {
+		std::vector<int> IC_ = m.getIC();
+		int start = m.getIR()[rowFirstIndex];
+		int end = IR_[rowFirstIndex + 1];
+		std::vector<double> row(IR_.size() - 1);
+		for (int j = 0; j < IR_.size() - 1; j++) {
+			for (int k = start; k < end; k++) {
+				if (IC_[k] == j) {
+					row[j] = A_[k];
+				}
+			}
+		}
+		for (int i = 0; i < row.size(); i++) {
+			out << row[i] << '\t';
+		}
+		out << '\n';
+	}
+	return out;
+}
+
 void test_matrix_unpacked() {
 	PackedMatrix m = PackedMatrix();
 	m.putElement(13, 0, true);

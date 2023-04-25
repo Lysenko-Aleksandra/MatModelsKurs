@@ -22,7 +22,7 @@ PackedMatrix fillMatrixA(int x_n, int y_n, std::vector<double>xMain,
 	int N = x_n * y_n;
 	int M = x_n;
 	Vector g(N);
-	PackedMatrix A= PackedMatrix();
+	PackedMatrix A=PackedMatrix();
 	double a_m, c_m, b_m,gValue = 0;
 	for (int j = 0; j < y_n; j++) {
 		for (int i = 0; i < x_n; i++) {
@@ -116,17 +116,23 @@ PackedMatrix fillMatrixA(int x_n, int y_n, std::vector<double>xMain,
 	A.putLastRowIndex(A.getA().size());
 	return A;
 }
-PackedMatrix fillMatrixL(PackedMatrix &A, int M, int N) {
+PackedMatrix fillMatrixL(PackedMatrix& A, int M, int N) {
 	PackedMatrix L(A);
 	double a_m;
 	double c_m;
 	double b_m;
 
+	double ab;
+	double c;
+
+	double a;
+	double b;
+
 	for (int i = 1; i < L.getIR().size(); i++) {///для каждого ряда
 		int start = L.getIR()[i - 1];
 		int finish = L.getIR()[i];
 		int nonNullableElementsAmount = finish - start;///находим число ненулевых элементов
-		
+
 		switch (nonNullableElementsAmount)
 		{
 		case 1:
@@ -141,8 +147,8 @@ PackedMatrix fillMatrixL(PackedMatrix &A, int M, int N) {
 
 			break;
 		case 2:
-			double ab = L.getA()[start];
-			double c = L.getA()[start + 1];
+			ab = L.getA()[start];
+			c= L.getA()[start + 1];
 			c_m = std::sqrt(c - ab * ab);
 			L.setAElem(c_m, start + 1);
 			if (i + M < N) {
@@ -158,13 +164,13 @@ PackedMatrix fillMatrixL(PackedMatrix &A, int M, int N) {
 			}
 			break;
 		case 3:
-			double a = L.getA()[start];
-			double b = L.getA()[start+1];
-			c_m =std::sqrt(L.getA()[start + 2] - a * a - b * b);
+			a = L.getA()[start];
+			b = L.getA()[start + 1];
+			c_m = std::sqrt(L.getA()[start + 2] - a * a - b * b);
 			L.setAElem(c_m, start + 2);
 			if (((i - 1) >= N - M && i < N) ||
-				((i - 1) < N - M) && (i % M!= 0)) {
-				b_m = L.getA()[L.getIR()[i + 1]]/ c_m;
+				((i - 1) < N - M) && (i % M != 0)) {
+				b_m = L.getA()[L.getIR()[i + 1]] / c_m;
 				L.setAElem(b_m, L.getIR()[i] + 1);
 			}
 			if ((i - 1) < N - M) {
@@ -172,7 +178,9 @@ PackedMatrix fillMatrixL(PackedMatrix &A, int M, int N) {
 				A.setAElem(a_m, L.getIR()[i - 1 + M]);
 			}
 			break;
+		}
 	}
+	return L;
 }
 //
 //

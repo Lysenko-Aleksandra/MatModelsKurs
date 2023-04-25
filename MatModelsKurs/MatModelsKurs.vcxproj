@@ -131,6 +131,7 @@
     <ClCompile Include="Solve.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LinearSystemSolution.h" />
     <ClInclude Include="PackedMatrix.h" />
     <ClInclude Include="Steps&amp;Grids.h" />
     <ClInclude Include="Tests.h" />
