@@ -54,22 +54,4 @@ std::vector<double> getAuxiliaryGrid(double lowerBound,  std::vector<double> mai
 	return auxGrid;
 }
 
-//std::vector<double> getAuxiliaryMinusHalfGrid(double lowerBound, std::vector<double> mainGrid) {
-//	int partsAmount = mainGrid.size();
-//	std::vector<double> auxiliaryMinusHalfGrid(partsAmount);///r -1/2
-//	for (int i = 1; i <partsAmount; i++) {
-//		auxiliaryMinusHalfGrid[i] = (mainGrid[i] + mainGrid[i - 1]) / 2;
-//	}
-//	return auxiliaryMinusHalfGrid;
-//}
-//
-//std::vector<double> getAuxiliaryPlusHalfGrid(double lowerBound, std::vector<double> mainGrid) {
-//	int partsAmount = mainGrid.size();
-//	std::vector<double> auxiliaryPlusHalfGrid(partsAmount);///r +1/2
-//	for (int i = 0; i < partsAmount-1; i++) {
-//		auxiliaryPlusHalfGrid[i] = (mainGrid[i] + mainGrid[i + 1]) / 2;
-//	}
-//	return auxiliaryPlusHalfGrid;
-//}
-
 #endif
