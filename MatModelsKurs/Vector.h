@@ -77,19 +77,6 @@ public:
 		return Vector(result);
 	}
 
-	double abs() {
-		Vector it = *this;
-
-		return std::sqrt(it * it);
-	}
-
-	void pushBack(double elem) {
-		values_.push_back(elem);
-	}
-
-private:
-	std::vector<double> values_;
-
 	double operator *(const Vector& right_vector) {
 		int sizeA = values_.size();
 		int sizeB = right_vector.values_.size();
@@ -102,6 +89,19 @@ private:
 		}
 		return result;
 	}
+
+	double abs() {
+		Vector it = *this;
+
+		return std::sqrt(it * it);
+	}
+
+	void pushBack(double elem) {
+		values_.push_back(elem);
+	}
+
+private:
+	std::vector<double> values_;
 };
 
 

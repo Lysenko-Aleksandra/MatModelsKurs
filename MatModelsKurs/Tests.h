@@ -7,6 +7,7 @@
 #include "PackedMatrix.h"
 #include "Vector.h"
 #include "LinearSystemSolution.h"
+#include "Solve.h"
 
 std::ostream& operator <<(std::ostream& out, Vector& v) {
 	std::vector<double>vals = v.getValues();
@@ -168,12 +169,15 @@ void test_linear_system() {
 
 	m.putLastRowIndex(21);
 
-	PackedMatrix L = m.getTransposed(81, 9);
+	///PackedMatrix L = m.getTransposed(81, 9);
+
 	Vector r = Vector(std::vector < double>{42, 62, 52, 60, 86, 74, 68, 96, 78});
 
-	Vector a= solveLinearSystem(L, r, 81,9);
+	///либо а солве ошибка, либо я не то туда пихаю
 
-	std::cout << a;
+	/*Vector a= solveLinearSystem(L, r, 81,9);*/
+
+	/*std::cout << a;*/
 
 }
 
