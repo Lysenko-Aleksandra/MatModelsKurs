@@ -166,7 +166,6 @@ double u_first_test(double x, double y) {
 	return 3.0;
 }
 
-void first_test();
 
 
 double k_1_second_test(double x, double y) {

@@ -19,16 +19,17 @@ Vector solve(int x_n, int y_n,
 	std::vector<double> xMain = getMainGrid(x_lower, xSteps);
 	std::vector<double> xAux = getAuxiliaryGrid(x_lower, xMain);
 
-	double hx = xSteps[1] - xSteps[0];
+	double hx =xSteps[0];
 
 	std::vector<double> ySteps = getMainSteps(y_lower, y_upper, y_n);
 	std::vector<double> yMain = getMainGrid(y_lower, ySteps);
 	std::vector<double> yAux = getAuxiliaryGrid(y_lower, yMain);
 
-	double hy = ySteps[1] - ySteps[0];
+	double hy = ySteps[0];
 
 	PackedMatrix A = fillMatrixA(x_n, y_n, xMain, xAux, yMain, yAux, hx, hy,
 		k1, k2, g1, g2, g3, g4, lambda_1, lambda_3, f);
+
 
 	Vector X0 = Vector(N);
 

@@ -13,11 +13,12 @@ Vector conjugateGradientMethod(PackedMatrix A, Vector f, Vector x0, int M, int N
 
 	while (true) {
 		iterCount++;
-		a = (w0 * r0) / (sk * A * sk);
+		a = (w0 * r0) / (sk * A * sk);//+
 		Vector xk = x0 + sk * a;
-		Vector rk = r0 = sk * A * a;
+		Vector rk = r0 - sk * A *a;
 
-		double eps = 0.00001;
+		double eps = 0.0001;
+		///std::cout << rk.abs() << '\n'<< f.abs()<<'\n';
 		if (rk.abs() / f.abs() < eps) {
 			std::cout << "число итераций " << iterCount;
 			return xk;

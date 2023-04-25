@@ -11,7 +11,7 @@ public:
 	Vector() = default;
 
 	Vector(int n) {
-		values_ = std::vector<double>(n);
+		values_ = std::vector<double>(n,0);
 	}
 
 	Vector(std::vector<double> vals) {

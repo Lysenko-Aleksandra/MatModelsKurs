@@ -123,6 +123,7 @@ PackedMatrix fillMatrixA(int x_n, int y_n, std::vector<double>xMain,
 					+ hy * lambda_1;
 				a_m = -hx / (2 * hy) * k2(xMain[i], yAux[j]);
 
+
 				A.putElement(a_m, m - x_n, true);
 				A.putElement(c_m, m, false);
 			}
@@ -182,7 +183,7 @@ PackedMatrix fillMatrixL(PackedMatrix& A, int M, int N) {
 			L.setAElem(c_m, start + 1);
 			if (i + M < N) {
 				a_m = L.getA()[L.getIR()[i - 1 + M]] / c_m;
-				A.setAElem(a_m, L.getIR()[i - 1 + M]);
+				L.setAElem(a_m, L.getIR()[i - 1 + M]);
 			}
 			b_m = L.getA()[L.getIR()[i]] / c_m;
 			if ((i - 1) % M == 0) {
@@ -199,12 +200,12 @@ PackedMatrix fillMatrixL(PackedMatrix& A, int M, int N) {
 			L.setAElem(c_m, start + 2);
 			if (((i - 1) >= N - M && i < N) ||
 				((i - 1) < N - M) && (i % M != 0)) {
-				b_m = L.getA()[L.getIR()[i + 1]] / c_m;
+				b_m = L.getA()[L.getIR()[i] + 1] / c_m;
 				L.setAElem(b_m, L.getIR()[i] + 1);
 			}
 			if ((i - 1) < N - M) {
 				a_m = L.getA()[L.getIR()[i - 1 + M]] / c_m;
-				A.setAElem(a_m, L.getIR()[i - 1 + M]);
+				L.setAElem(a_m, L.getIR()[i - 1 + M]);
 			}
 			break;
 		}

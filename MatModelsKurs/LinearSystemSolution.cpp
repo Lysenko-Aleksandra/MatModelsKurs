@@ -40,7 +40,7 @@ Vector GaussT(PackedMatrix LT, Vector y, int M, int N) {
 		w.setElem(elem, i);
 	}
 
-	for (int i = N - M; i >= 0; i--) {
+	for (int i = N - M-1; i >= 0; i--) {
 		start = LT.getIR()[i];
 
 		if ((i + 1) % M == 0) {
@@ -60,5 +60,6 @@ Vector GaussT(PackedMatrix LT, Vector y, int M, int N) {
 Vector solveLinearSystem(PackedMatrix L, Vector r, int N, int M) {
 	Vector y = Gauss(L, r, M, N);
 	PackedMatrix LT = L.getTransposed(N, M);
-	return GaussT(LT, y, M, N);
+	Vector w= GaussT(LT, y, M, N);
+	return w;
 }
