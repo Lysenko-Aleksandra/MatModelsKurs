@@ -62,14 +62,34 @@ public:
 	void setAElem(double elem, int position) {
 		A_[position] = elem;
 	}
+	
+	PackedMatrix getTransposed(int N, int M) {
+		PackedMatrix transposed= PackedMatrix();
 
+		for (int col = 0; col < N; col++) {
+			int count = 0;
+			for (int i = 0; i < IC_.size(); i++) {
+				if (IC_[i] == col) {
+					int offset = 0;
+					if (count == 1) {
+						offset = 1;
+					}
+					if ((count == 2) || ((col + 1) % M == 0) && (count == 1)) {
+						offset = M;
+					}
+					transposed.putElement(A_[i], col + offset, count == 0);
+					count++;
+				}
+			}
+		}
+		transposed.putLastRowIndex(transposed.A_.size());
+		return transposed;
+	}
 
 private:
 	std::vector < double>A_;
 	std::vector<int>IC_;
 	std::vector<int>IR_;
 };
-
-
 
 #endif

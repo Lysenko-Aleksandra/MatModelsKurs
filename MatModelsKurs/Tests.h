@@ -6,6 +6,7 @@
 
 #include "PackedMatrix.h"
 #include "Vector.h"
+#include "LinearSystemSolution.h"
 
 std::ostream& operator <<(std::ostream& out, Vector& v) {
 	std::vector<double>vals = v.getValues();
@@ -128,6 +129,52 @@ void test_vector_manipulations() {
 	Vector subs_3= first_vector_2 * m;
 
 	std::cout << subs_3;
+}
+
+void test_linear_system() {
+	Vector first_vector(std::vector < double>{2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0});
+
+	PackedMatrix m = PackedMatrix();
+	m.putElement(13, 0, true);
+	m.putElement(7, 1, false);
+	m.putElement(1, 3, false);
+
+	m.putElement(14, 1, true);
+	m.putElement(8, 2, false);
+	m.putElement(2, 4, false);
+
+	m.putElement(15, 2, true);
+	m.putElement(3, 5, false);
+
+	m.putElement(16, 3, true);
+	m.putElement(9, 4, false);
+	m.putElement(4, 6, false);
+
+	m.putElement(17, 4, true);
+	m.putElement(10, 5, false);
+	m.putElement(5, 7, false);
+
+	m.putElement(18, 5, true);
+	m.putElement(6, 8, false);
+
+	m.putElement(19, 6, true);
+	m.putElement(11, 7, false);
+
+	m.putElement(20, 7, true);
+	m.putElement(12, 8, false);
+
+	m.putElement(21, 8, true);
+
+
+	m.putLastRowIndex(21);
+
+	PackedMatrix L = m.getTransposed(81, 9);
+	Vector r = Vector(std::vector < double>{42, 62, 52, 60, 86, 74, 68, 96, 78});
+
+	Vector a= solveLinearSystem(L, r, 81,9);
+
+	std::cout << a;
+
 }
 
 double k_1_first_test(double x, double y) {

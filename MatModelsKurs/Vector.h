@@ -8,6 +8,8 @@
 
 class Vector {
 public:
+	Vector() = default;
+
 	Vector(int n) {
 		values_ = std::vector<double>(n);
 	}
@@ -79,6 +81,10 @@ public:
 		Vector it = *this;
 
 		return std::sqrt(it * it);
+	}
+
+	void pushBack(double elem) {
+		values_.push_back(elem);
 	}
 
 private:

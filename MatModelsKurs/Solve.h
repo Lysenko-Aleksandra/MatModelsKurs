@@ -8,10 +8,8 @@
 #include "Vector.h"
 
 PackedMatrix fillMatrixA(int x_n, int y_n, std::vector<double>xMain,
-	///std::vector<double>xMinusHalf, std::vector<double> xPlusHalf,
 	std::vector<double>xAux,
 	std::vector<double> yMain,
-	///std::vector<double> yPlusHalf,std::vector<double> yMinusHalf,
 	std::vector<double>yAux,
 	double hx, double hy, double (*k1)(double x, double y),
 	double (*k2)(double x, double y), double (*g1)(double y),
