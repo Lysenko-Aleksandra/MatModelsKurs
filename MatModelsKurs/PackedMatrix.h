@@ -11,6 +11,11 @@ public:
 		IC_ = std::vector<int>();
 		IR_ = std::vector<int>();
 	}
+	PackedMatrix(PackedMatrix& m) {
+		A_ = m.A_;
+		IC_ = m.IC_;
+		IR_ = m.IR_;
+	}
 	
 	PackedMatrix(std::vector < double>A, std::vector<int>IC, std::vector<int>IR) {
 		A_ = A;

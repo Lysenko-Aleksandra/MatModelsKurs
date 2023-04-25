@@ -70,7 +70,7 @@ PackedMatrix fillMatrixA(int x_n, int y_n, std::vector<double>xMain,
 				if (j == y_n - 1) {///точка 0;y_n - 1
 					gValue= hx / 2 * hy * f(xMain[i], yMain[j])
 						+ hy * g1(yMain[j])
-						+ hx / (2 * hy) * k2(xMain[i], yAux[j + 1]) * g4(xMain[i]));
+						+ hx / (2 * hy) * k2(xMain[i], yAux[j + 1]) * g4(xMain[i]);
 				}
 				else {
 					gValue= hx / 2 * hy * f(xMain[i], yMain[j]) + hy *
@@ -88,19 +88,19 @@ PackedMatrix fillMatrixA(int x_n, int y_n, std::vector<double>xMain,
 					+ hy / hx * k1(xAux[i + 1], yMain[j]);
 				b_m = -hy / hx * k1(xAux[i], yMain[j]);
 				a_m = -hx / hy * k2(xMain[i], yAux[j]);
-				if ((i == x_n - 1) && (j == y_n - 1)) {
+				if ((i == x_n - 1) && (j == y_n - 1)) {///точка x_n - 1;y_n - 1
 					gValue= hx * hy * f(xMain[i], yMain[j])
 						+ hy / hx * k1(xAux[i + 1], yMain[j]) * g2(yMain[j])
-						+ hx / hy * k2(xMain[i], yAux[j + 1]) * g4(xMain[i]));
+						+ hx / hy * k2(xMain[i], yAux[j + 1]) * g4(xMain[i]);
 				}
-				else if (i == x_n - 1) {
+				else if (i == x_n - 1) {///правая граница
 					gValue= hx * hy * f(xMain[i], yMain[j]) 
 						+ hy / hx * k1(xAux[i+ 1], yMain[j]) * g2(yMain[j]);
 				}
-				else if (j == y_n - 1) {
+				else if (j == y_n - 1) {//верхняя граница
 					gValue=hx * hy * f(xMain[i], yMain[j]) 
 						+ hx / hy * k2(xMain[i],
-						yAux[j + 1]) * g4(xMain[i]));
+						yAux[j + 1]) * g4(xMain[i]);
 				}
 				else {
 					gValue = hx * hy * f(xMain[i], yMain[j]);
@@ -111,10 +111,69 @@ PackedMatrix fillMatrixA(int x_n, int y_n, std::vector<double>xMain,
 				A.putElement(c_m,  m, false);
 			}
 		}
+
 	}
-
+	A.putLastRowIndex(A.getA().size());
+	return A;
 }
+PackedMatrix fillMatrixL(PackedMatrix &A, int M, int N) {
+	PackedMatrix L(A);
+	double a_m;
+	double c_m;
+	double b_m;
 
+	for (int i = 1; i < L.getIR().size(); i++) {///для каждого ряда
+		int start = L.getIR()[i - 1];
+		int finish = L.getIR()[i];
+		int nonNullableElementsAmount = finish - start;///находим число ненулевых элементов
+		
+		switch (nonNullableElementsAmount)
+		{
+		case 1:
+			c_m = std::sqrt(L.getA()[start]);
+			L.setAElem(c_m, start);
+
+			b_m = L.getA()[L.getIR()[i]] / c_m;
+			a_m = L.getA()[L.getIR()[i - 1 + M]] / c_m;
+
+			L.setAElem(b_m, L.getIR()[i]);
+			L.setAElem(a_m, L.getIR()[i - 1 + M]);
+
+			break;
+		case 2:
+			double ab = L.getA()[start];
+			double c = L.getA()[start + 1];
+			c_m = std::sqrt(c - ab * ab);
+			L.setAElem(c_m, start + 1);
+			if (i + M < N) {
+				a_m = L.getA()[L.getIR()[i - 1 + M]] / c_m;
+				A.setAElem(a_m, L.getIR()[i - 1 + M]);
+			}
+			b_m = L.getA()[L.getIR()[i]] / c_m;
+			if ((i - 1) % M == 0) {
+				L.setAElem(b_m, L.getIR()[i] + 1);
+			}
+			else if ((i - 1) % (M - 1) != 0) {
+				L.setAElem(b_m, L.getIR()[i]);
+			}
+			break;
+		case 3:
+			double a = L.getA()[start];
+			double b = L.getA()[start+1];
+			c_m =std::sqrt(L.getA()[start + 2] - a * a - b * b);
+			L.setAElem(c_m, start + 2);
+			if (((i - 1) >= N - M && i < N) ||
+				((i - 1) < N - M) && (i % M!= 0)) {
+				b_m = L.getA()[L.getIR()[i + 1]]/ c_m;
+				L.setAElem(b_m, L.getIR()[i] + 1);
+			}
+			if ((i - 1) < N - M) {
+				a_m = L.getA()[L.getIR()[i - 1 + M]] / c_m;
+				A.setAElem(a_m, L.getIR()[i - 1 + M]);
+			}
+			break;
+	}
+}
 //
 //
 //std::vector<std::vector<double>> solve() {
