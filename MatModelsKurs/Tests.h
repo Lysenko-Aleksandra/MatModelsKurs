@@ -17,5 +17,7 @@ void test_matrix_unpacked();
 void test_vector_manipulations();
 
 void first_test();
+void second_test();
+void third_test();
 
 #endif

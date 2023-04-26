@@ -8,5 +8,8 @@
 int main() {
 	//test_matrix_unpacked();
 	///test_vector_manipulations();
-	first_test();
+   ///first_test();
+	///second_test();
+	third_test();
+   return 0;
 }

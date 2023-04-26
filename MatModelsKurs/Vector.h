@@ -6,6 +6,7 @@
 #include <iostream>
 #include "PackedMatrix.h"
 
+
 class Vector {
 public:
 	Vector() = default;
@@ -104,5 +105,7 @@ private:
 	std::vector<double> values_;
 };
 
+
+std::ostream& operator <<(std::ostream& out, Vector& v);
 
 #endif

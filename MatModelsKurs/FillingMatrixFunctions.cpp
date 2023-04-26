@@ -19,15 +19,13 @@ Vector fillVectorG(int x_n, int y_n, std::vector<double>xMain,
 		for (int i = 0; i < x_n; i++) {
 			int m = j * M + i;////переходим к одноиндексной записи
 			if ((i == 0) && (j == 0)) {////точка с координатами 0,0
-				gValue = hx / 2 * hy / 2 * f(xMain[i], yMain[j]
+				gValue = hx / 2 * hy / 2 * f(xMain[i], yMain[j])
 					+ hx / 2 * g3(xMain[i])
-					+ hy / 2 * g1(yMain[j]));
+					+ hy / 2 * g1(yMain[j]);
 				g.setElem(gValue, m);
 			}
 
 			if ((j == 0) && (i > 0) && (i <= x_n - 1)) {////нижняя граница
-
-
 				if (i == x_n - 1) {////точка x_n-1;0
 					gValue = (hx * hy) / 2 * f(xMain[i], yMain[j]) + hx *
 						g3(xMain[i])
@@ -99,7 +97,7 @@ PackedMatrix fillMatrixA(int x_n, int y_n, std::vector<double>xMain,
 
 			if ((i == 0) && (j == 0)) {////точка с координатами 0,0
 				c_m = hx / 2 * lambda_3
-					+ hx * (2 * hy) * k2(xMain[i], yAux[j + 1])
+					+ hx / (2 * hy) * k2(xMain[i], yAux[j + 1])
 					+ hy / 2 * lambda_1
 					+ hy / (2 * hx) * k1(xAux[i + 1], yMain[i]);
 				A.putElement(c_m, m, true);

@@ -2,39 +2,8 @@
 
 #include "Solve.h"
 #include "Steps&Grids.h"
+#include "LinearSystemSolution.h"
 
-std::ostream& operator <<(std::ostream& out, Vector& v) {
-	std::vector<double>vals = v.getValues();
-	for (int i = 0; i < vals.size(); i++) {
-		out << vals[i] << ' ';
-	}
-	out << '\n';
-	return out;
-}
-
-std::ostream& operator <<(std::ostream& out, PackedMatrix& m) {
-	std::vector<int> IC_ = m.getIC();
-	std::vector<int> IR_ = m.getIR();
-	std::vector<double> A_ = m.getA();
-	for (int rowFirstIndex = 0; rowFirstIndex < IR_.size() - 1; rowFirstIndex++) {
-		std::vector<int> IC_ = m.getIC();
-		int start = m.getIR()[rowFirstIndex];
-		int end = IR_[rowFirstIndex + 1];
-		std::vector<double> row(IR_.size() - 1);
-		for (int j = 0; j < IR_.size() - 1; j++) {
-			for (int k = start; k < end; k++) {
-				if (IC_[k] == j) {
-					row[j] = A_[k];
-				}
-			}
-		}
-		for (int i = 0; i < row.size(); i++) {
-			out << row[i] << '\t';
-		}
-		out << '\n';
-	}
-	return out;
-}
 
 void test_matrix_unpacked() {
 	PackedMatrix m = PackedMatrix();
@@ -126,6 +95,48 @@ void test_vector_manipulations() {
 	std::cout << subs_3;
 }
 
+//
+//void test_solve_linear_system() {
+//	PackedMatrix m = PackedMatrix();
+//	m.putElement(13, 0, true);
+//	m.putElement(7, 1, false);
+//	m.putElement(1, 3, false);
+//
+//	m.putElement(14, 1, true);
+//	m.putElement(8, 2, false);
+//	m.putElement(2, 4, false);
+//
+//	m.putElement(15, 2, true);
+//	m.putElement(3, 5, false);
+//
+//	m.putElement(16, 3, true);
+//	m.putElement(9, 4, false);
+//	m.putElement(4, 6, false);
+//
+//	m.putElement(17, 4, true);
+//	m.putElement(10, 5, false);
+//	m.putElement(5, 7, false);
+//
+//	m.putElement(18, 5, true);
+//	m.putElement(6, 8, false);
+//
+//	m.putElement(19, 6, true);
+//	m.putElement(11, 7, false);
+//
+//	m.putElement(20, 7, true);
+//	m.putElement(12, 8, false);
+//
+//	m.putElement(21, 8, true);
+//
+//
+//	m.putLastRowIndex(21);
+//
+//	Vector r = Vector(std::vector<double>{42, 62, 52, 60, 86, 74, 68, 96, 78});
+//	Vector b = solveLinearSystem(m, r, 9, 3);
+//	std::cout << b;
+//
+//}
+
 
 
 double k_1_first_test(double x, double y) {
@@ -186,7 +197,7 @@ double g_2_second_test(double y) {
 }
 
 double g_3_second_test(double x) {
-	return 9 * x * x + 9;
+	return 9 * x * x - 3*x;
 }
 
 double g_4_second_test(double x) {
@@ -213,7 +224,7 @@ double k_2_third_test(double x, double y) {
 
 
 double g_1_third_test(double y) {
-	return 9 * std::pow(y, 3) + 9;
+	return 9 * std::pow(y, 2) + 9;
 }
 
 double g_2_third_test(double y) {
@@ -230,7 +241,7 @@ double g_4_third_test(double x) {
 
 
 double f_third_test(double x, double y) {
-	return -54 * x * x - 18 * x * y - 108 * std::pow(y, 3) - 60 * y - 18;
+	return -54 * x * x - 54 * y * y  -6*x-6*y-36;
 }
 
 double u_third_test(double x, double y) {
@@ -238,7 +249,7 @@ double u_third_test(double x, double y) {
 }
 
 void first_test() {
-	for (int x_n = 4; x_n <= 512; x_n *= 2) {
+	for (int x_n = 4; x_n <= 32; x_n *= 2) {
 		int y_n = x_n;
 
 		int N = x_n * y_n;
@@ -283,7 +294,103 @@ void first_test() {
 		std::cout.scientific;
 		std::cout << "N_x = " << x_n << " N_y = " << y_n << '\n';
 		std::cout << "Max epsilon is " << maxEps << '\n';
-
 	}
+}
 
+void second_test() {
+	for (int x_n = 4; x_n <= 32; x_n *= 2) {
+		int y_n = x_n;
+
+		int N = x_n * y_n;
+		int M = x_n;
+
+		double x_lower = 0.0;
+		double x_upper = 1.0;
+
+		double y_lower = 0.0;
+		double y_upper = 1.0;
+
+
+		std::vector<double> xSteps = getMainSteps(x_lower, x_upper, x_n);
+		std::vector<double> xMain = getMainGrid(x_lower, xSteps);
+
+
+		std::vector<double> ySteps = getMainSteps(y_lower, y_upper, y_n);
+		std::vector<double> yMain = getMainGrid(y_lower, ySteps);
+
+
+		Vector u_res_test = solve(x_n, y_n, k_1_second_test, k_2_second_test,
+			g_1_second_test, g_2_second_test, g_3_second_test, g_4_second_test, lambda_1, lambda_3, f_second_test,
+			x_lower, x_upper, y_lower, y_upper);
+
+		Vector u_res(N);
+
+		for (int j = 0; j <= y_n - 1; j++) {
+			for (int i = 0; i <= x_n - 1; i++) {
+				int k = M * j + i;
+				u_res.setElem(u_second_test(xMain[i], yMain[j]), k);
+			}
+		}
+
+		std::vector<double> epsilon;
+
+		for (int i = 0; i < N; i++) {
+			epsilon.push_back(std::abs(u_res.getValues()[i] - u_res_test.getValues()[i]));
+		}
+
+		double maxEps = *std::max_element(epsilon.begin(), epsilon.end());
+
+		std::cout.scientific;
+		std::cout << "N_x = " << x_n << " N_y = " << y_n << '\n';
+		std::cout << "Max epsilon is " << maxEps << '\n';
+	}
+}
+
+void third_test() {
+	for (int x_n = 4; x_n <= 32; x_n *= 2) {
+		int y_n = x_n;
+
+		int N = x_n * y_n;
+		int M = x_n;
+
+		double x_lower = 0.0;
+		double x_upper = 1.0;
+
+		double y_lower = 0.0;
+		double y_upper = 1.0;
+
+
+		std::vector<double> xSteps = getMainSteps(x_lower, x_upper, x_n);
+		std::vector<double> xMain = getMainGrid(x_lower, xSteps);
+
+
+		std::vector<double> ySteps = getMainSteps(y_lower, y_upper, y_n);
+		std::vector<double> yMain = getMainGrid(y_lower, ySteps);
+
+
+		Vector u_res_test = solve(x_n, y_n, k_1_third_test, k_2_third_test,
+			g_1_third_test, g_2_third_test, g_3_third_test, g_4_third_test, lambda_1, lambda_3, f_third_test,
+			x_lower, x_upper, y_lower, y_upper);
+
+		Vector u_res(N);
+
+		for (int j = 0; j <= y_n - 1; j++) {
+			for (int i = 0; i <= x_n - 1; i++) {
+				int k = M * j + i;
+				u_res.setElem(u_third_test(xMain[i], yMain[j]), k);
+			}
+		}
+
+		std::vector<double> epsilon;
+
+		for (int i = 0; i < N; i++) {
+			epsilon.push_back(std::abs(u_res.getValues()[i] - u_res_test.getValues()[i]));
+		}
+
+		double maxEps = *std::max_element(epsilon.begin(), epsilon.end());
+
+		std::cout.scientific;
+		std::cout << "N_x = " << x_n << " N_y = " << y_n << '\n';
+		std::cout << "Max epsilon is " << maxEps << '\n';
+	}
 }

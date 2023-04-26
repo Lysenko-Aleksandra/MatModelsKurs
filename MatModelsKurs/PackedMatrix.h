@@ -4,6 +4,7 @@
 #include<vector>
 #include <iostream>
 
+
 class PackedMatrix {
 public:
 	PackedMatrix() = default;
@@ -91,5 +92,7 @@ private:
 	std::vector<int>IC_;
 	std::vector<int>IR_;
 };
+
+std::ostream& operator <<(std::ostream& out, PackedMatrix& m);
 
 #endif

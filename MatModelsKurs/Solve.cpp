@@ -36,6 +36,8 @@ Vector solve(int x_n, int y_n,
 	Vector g = fillVectorG(x_n, y_n, xMain, xAux, yMain, yAux, hx, hy,
 		k1, k2, g1, g2, g3, g4, lambda_1, lambda_3, f);
 
+
+
 	Vector Xk = conjugateGradientMethod(A, g, X0, M, N);
 	return Xk;
 }

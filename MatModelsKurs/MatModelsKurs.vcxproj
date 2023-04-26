@@ -131,10 +131,12 @@
     <ClCompile Include="FillingMatrixFunctions.cpp" />
     <ClCompile Include="LinearSystemSolution.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PackedMatrix.cpp" />
     <ClCompile Include="Solve.cpp" />
     <ClCompile Include="Solve.h" />
     <ClCompile Include="Steps&amp;Grids.cpp" />
     <ClCompile Include="Tests.cpp" />
+    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConjuganteGradientMethod.h" />
