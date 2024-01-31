@@ -7,11 +7,6 @@
 #include "PackedMatrix.h"
 #include "Vector.h"
 
-
-std::ostream& operator <<(std::ostream& out, Vector& v);
-
-std::ostream& operator <<(std::ostream& out, PackedMatrix& m);
-
 void test_matrix_unpacked();
 
 void test_vector_manipulations();
